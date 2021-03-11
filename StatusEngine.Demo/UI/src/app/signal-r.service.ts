@@ -5,6 +5,7 @@ export interface AssetModel {
   name: string;
   colour: string;
   reason: string;
+  badge: number;
 }
 
 @Injectable({
@@ -12,12 +13,12 @@ export interface AssetModel {
 })
 export class SignalRService {
   public data: AssetModel[];
-  private hubConnection: signalR.HubConnection;  
+  private hubConnection: signalR.HubConnection;
 
   constructor() {
     this.hubConnection = new signalR
       .HubConnectionBuilder()
-      .withUrl('https://localhost:5001/chatHub')
+      .withUrl('https://localhost:5001/updatesHub')
       .withAutomaticReconnect()
       .build();
     this.data = [];
@@ -40,12 +41,25 @@ export class SignalRService {
       var assets = this.data
         .filter(a => a.name === asset.name);
 
-      if (assets.length == 0)
+      if (assets.length == 0) {
+        updates.badge = 1;
+        updates.isBadgeVisible = true;
         this.data.push(updates);
+      }
       else
         assets.forEach(a => {
           a.colour = asset.colour;
-          a.reason = asset.reason});
+          a.reason = asset.reason;
+          a.badge = a.badge ? a.badge + 1 : 1;
+        });
     });
   }
+
+  public resetBadge = (asset: any) => {
+    var assets = this.data
+      .filter(a => a.name === asset.name)
+      .forEach(a => {
+        a.badge = 0;
+      });
+  }  
 }

@@ -36,7 +36,7 @@ namespace StatusEngine.Demo.Grains
 
         public async Task Notify(Event @event)
         {
-            Log($"Received a new event");
+            Log("Received a new event");
             var result = _statusEngine.Calculate(State.Colour, @event.Data);
             if (result == State.Colour)
             {
@@ -44,7 +44,7 @@ namespace StatusEngine.Demo.Grains
                 return;
             }
 
-            Log($"Event class colour has changed!");
+            Log($"Event class colour has changed to {result}!");
             var newEvent = new EventClassChangedStatus
             {
                 Event = @event,

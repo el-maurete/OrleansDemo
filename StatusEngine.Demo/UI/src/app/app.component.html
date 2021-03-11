@@ -1,0 +1,16 @@
+<mat-grid-list cols="3" rowHeight="7:2">
+  <mat-grid-tile *ngFor='let asset of signalRService.data'>
+    <mat-card (click)="resetBadge(asset)">
+      <mat-card-header
+        [class]="asset.colour"
+        [matBadge]="asset.badge"
+        [matBadgeHidden]="asset.badge == 0"
+        matBadgePosition="after">
+        <mat-card-title>{{asset.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{asset.reason}}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

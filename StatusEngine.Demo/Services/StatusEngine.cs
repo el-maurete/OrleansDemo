@@ -1,5 +1,4 @@
-﻿using System;
-using StatusEngine.Demo.Model;
+﻿using StatusEngine.Demo.Model;
 
 namespace StatusEngine.Demo.Services
 {
@@ -12,10 +11,9 @@ namespace StatusEngine.Demo.Services
     {
         public Colour Calculate(Colour currentStatus, int data)
         {
-            var result = (int) currentStatus;
-            result += data;
-            result = Math.Min(2, Math.Max(result, 0));
-            return (Colour) result;
+            return data < 1 ? Colour.red
+                : data < 5 ? Colour.amber
+                : Colour.green;
         }
     }
 }

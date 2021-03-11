@@ -4,12 +4,12 @@ using StatusEngine.Demo.Model;
 
 namespace StatusEngine.Demo
 {
-    public interface IChatHub
+    public interface IUpdatesHub
     {
         Task AssetOwnerUpdate(OwnerSummary ownerSummary);
     }
 
-    public class ChatHub : Hub<IChatHub>
+    public class UpdatesHub : Hub<IUpdatesHub>
     {
         public Task Send(OwnerSummary ownerSummary)
         {

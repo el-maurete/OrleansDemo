@@ -13,6 +13,7 @@ namespace StatusEngine.Demo
     {
         private readonly ILogger<DemoClient> _logger;
         private readonly IClusterClient _client;
+        private readonly Random _random = new();
         private bool _run;
         private Task _task;
 
@@ -37,9 +38,11 @@ namespace StatusEngine.Demo
 
         private async Task Loop()
         {
+            _logger.LogInformation("Waiting 10s before starting demo loop");
+            await Task.Delay(TimeSpan.FromSeconds(10));
             while (_run)
             {
-                await Task.Delay(100);
+                await Task.Delay(1000);
                 _logger.LogInformation("Demo loop activated");
                 try
                 {
@@ -65,14 +68,13 @@ namespace StatusEngine.Demo
 
         private Event GenerateDemoEvent()
         {
-            var random = new Random(DateTime.Now.Millisecond);
-            var owner = "TEAM-" + random.Next(6);
-            var assetClassName = "AssetClass-" + random.Next(10);
-            var assetName = "Asset-" + random.Next(5);
-            var eventClassName = "EventClass-" + random.Next(5);
+            var owner = "TEAM-" + _random.Next(12);
+            var assetClassName = "AssetClass-" + _random.Next(2); // DO I CARE?
+            var assetName = "Asset-" + _random.Next(5);
+            var eventClassName = "EventClass-" + _random.Next(3);
             return new Event
             {
-                Data = 1 - random.Next(8),
+                Data = _random.Next(50),
                 Summary = "Demo event @ " + DateTime.Now,
                 Owner = owner,
                 AssetClassName = assetClassName,

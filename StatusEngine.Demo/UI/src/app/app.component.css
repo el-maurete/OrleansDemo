@@ -1,0 +1,19 @@
+
+mat-card {
+  width: 300px;
+}
+
+mat-card-header.red {
+  background: red;
+  transition: all 1s linear;
+}
+
+mat-card-header.amber {
+  background: yellow;
+  transition: all 1s linear;
+}
+
+mat-card-header.green {
+  background: green;
+  transition: all 1s linear;
+}

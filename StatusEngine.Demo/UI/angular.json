@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "DemoUI": {
+    "UI": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/DemoUI",
+            "outputPath": "dist/UI",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -65,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "DemoUI:build"
+            "browserTarget": "UI:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "DemoUI:build:production"
+              "browserTarget": "UI:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "DemoUI:build"
+            "browserTarget": "UI:build"
           }
         },
         "test": {
@@ -113,16 +114,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "DemoUI:serve"
+            "devServerTarget": "UI:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "DemoUI:serve:production"
+              "devServerTarget": "UI:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "DemoUI"
+  "defaultProject": "UI"
 }

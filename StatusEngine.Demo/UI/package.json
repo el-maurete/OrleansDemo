@@ -1,11 +1,10 @@
 {
-  "name": "statusengine.demo",
+  "name": "ui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:ssr": "ng run StatusEngine.Demo:server:dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -13,14 +12,16 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.4",
+    "@angular/cdk": "^11.2.4",
     "@angular/common": "~11.2.4",
     "@angular/compiler": "~11.2.4",
     "@angular/core": "~11.2.4",
     "@angular/forms": "~11.2.4",
+    "@angular/material": "^11.2.4",
     "@angular/platform-browser": "~11.2.4",
     "@angular/platform-browser-dynamic": "~11.2.4",
     "@angular/router": "~11.2.4",
-    "@microsoft/signalr": "^5.0.3",
+    "@microsoft/signalr": "^5.0.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

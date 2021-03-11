@@ -13,9 +13,9 @@ namespace StatusEngine.Demo.Grains
     public class OwnerGrain : BaseGrain<Owner>, IOwnerGrain
     {
         private readonly ILogger<OwnerGrain> _logger;
-        private readonly IHubContext<ChatHub, IChatHub> _hub; 
+        private readonly IHubContext<UpdatesHub, IUpdatesHub> _hub; 
         
-        public OwnerGrain(ILogger<OwnerGrain> logger, IHubContext<ChatHub, IChatHub> hub)
+        public OwnerGrain(ILogger<OwnerGrain> logger, IHubContext<UpdatesHub, IUpdatesHub> hub)
         {
             _logger = logger;
             _hub = hub;
@@ -25,7 +25,7 @@ namespace StatusEngine.Demo.Grains
         {
             var colour = State.Assets
                 .Select(x => x.Value.Colour)
-                .DefaultIfEmpty(Colour.green)
+                .DefaultIfEmpty(Colour.unknown)
                 .Max();
             
             return Task.FromResult(new OwnerSummary
@@ -39,10 +39,11 @@ namespace StatusEngine.Demo.Grains
         public async Task Notify(AssetChangedStatus @event)
         {
             var currentStatus = await Get();
-            Log("Asset colour has changed!");
+            Log("Received notification: Asset colour has changed!");
             RaiseEvent(@event);
             await ConfirmEvents();
             var newStatus = await Get();
+            Warn($"Owner color is {newStatus.Colour}");
             await _hub.Clients.All.AssetOwnerUpdate(new OwnerSummary
             {
                 Name = this.GetPrimaryKeyString(),
@@ -61,5 +62,8 @@ namespace StatusEngine.Demo.Grains
 
         private void Log(string message)
             => _logger.LogInformation("{Key}: {Message}", this.GetPrimaryKeyString().Name(), message);
+        
+        private void Warn(string message)
+            => _logger.LogWarning("{Key}: {Message}", this.GetPrimaryKeyString().Name(), message);
     }
 }

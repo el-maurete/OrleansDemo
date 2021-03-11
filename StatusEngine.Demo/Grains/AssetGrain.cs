@@ -27,7 +27,7 @@ namespace StatusEngine.Demo.Grains
         
         public async Task Notify(EventClassChangedStatus @event)
         {
-            Log("Event class colour has changed!");
+            Log("Received notification: Event class colour has changed!");
 
             var currentStatus = GetSummary(State);
             RaiseEvent(@event);
@@ -39,7 +39,7 @@ namespace StatusEngine.Demo.Grains
             }
             else
             {
-                Log("Asset colour has changed!");
+                Log($"Asset colour has changed to {newStatus.Colour}!");
                 var parentPath = this.GetPrimaryKeyString().ParentPath();
                 var assetClassGrain = _client.GetGrain<IOwnerGrain>(parentPath);
                 await assetClassGrain.Notify(new AssetChangedStatus
@@ -59,8 +59,8 @@ namespace StatusEngine.Demo.Grains
                 Name = this.GetPrimaryKeyString().Name(),
                 Colour = state.EventClasses?
                     .Select(x => x.Value.Colour)
-                    .DefaultIfEmpty(Colour.green)
-                    .Max() ?? Colour.green
+                    .DefaultIfEmpty(Colour.unknown)
+                    .Max() ?? Colour.unknown
             };
         }
 
