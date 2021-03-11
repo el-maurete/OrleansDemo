@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Orleans;
+using OrleansDashboard;
 using StatusEngine.Demo.Services;
 
 namespace StatusEngine.Demo
@@ -26,7 +26,7 @@ namespace StatusEngine.Demo
             
             services.AddCors(options => options
                 .AddPolicy("Default", builder => builder
-                    .SetIsOriginAllowed(any => true)//.WithOrigins("http://localhost:4200")
+                    .SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()));
@@ -36,6 +36,7 @@ namespace StatusEngine.Demo
 
             services.AddHostedService<DemoClient>();
 
+            services.AddDashboard(options => options.BasePath = "/dashboard");
             services.AddSpaStaticFiles(options => options.RootPath = "UI/dist/UI");
         }
 
@@ -44,6 +45,7 @@ namespace StatusEngine.Demo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseOrleansDashboard(new DashboardOptions { BasePath = "/dashboard" });
             app.UseRouting();
             app.UseCors("Default");
             app.UseSpa(_ => { });
